@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Terminal, Filter, LayoutGrid, List as ListIcon } from 'lucide-react';
+import { Search, Filter, LayoutGrid, List as ListIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Note, NewNote } from './types';
 import { NoteCard } from './components/NoteCard';
@@ -67,9 +67,6 @@ export default function App() {
       {/* Top Header */}
       <header className="h-16 bg-white border-b border-[#e9ecef] flex items-center justify-between px-8 sticky top-0 z-30">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#0066ff] rounded-lg flex items-center justify-center text-white">
-            <Terminal className="w-5 h-5" />
-          </div>
           <h1 className="text-lg font-semibold tracking-tight text-[#212529]">DevNotes</h1>
         </div>
 
@@ -173,9 +170,6 @@ export default function App() {
                     animate={{ opacity: 1 }}
                     className="col-span-full py-24 text-center bg-white rounded-2xl border border-dashed border-[#dee2e6]"
                   >
-                    <div className="w-12 h-12 bg-[#f1f3f5] rounded-full flex items-center justify-center mx-auto mb-4 text-[#adb5bd]">
-                      <Terminal className="w-6 h-6" />
-                    </div>
                     <h3 className="text-base font-semibold text-[#212529]">No records found</h3>
                     <p className="text-sm text-[#adb5bd] mt-1">Try adjusting your search or language filters.</p>
                   </motion.div>
