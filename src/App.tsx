@@ -63,104 +63,96 @@ export default function App() {
   }, [notes]);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white">
-              <Terminal className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">DevNotes</h1>
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Programming Journal</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
-              <input
-                type="text"
-                placeholder="Search notes, tags..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-gray-100 border-transparent focus:bg-white focus:border-gray-200 rounded-full text-sm w-64 transition-all focus:ring-4 focus:ring-black/5 outline-none"
-              />
-            </div>
-            <div className="h-6 w-px bg-gray-200 mx-2" />
-            <div className="flex bg-gray-100 p-1 rounded-lg">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={cn(
-                  "p-1.5 rounded-md transition-all",
-                  viewMode === 'grid' ? "bg-white shadow-sm text-black" : "text-gray-400 hover:text-gray-600"
-                )}
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={cn(
-                  "p-1.5 rounded-md transition-all",
-                  viewMode === 'list' ? "bg-white shadow-sm text-black" : "text-gray-400 hover:text-gray-600"
-                )}
-              >
-                <ListIcon className="w-4 h-4" />
-              </button>
-            </div>
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Top Navigation - Brutalist Bar */}
+      <nav className="border-b-2 border-black flex items-stretch h-16 sticky top-0 z-20 bg-white">
+        <div className="border-r-2 border-black px-6 flex items-center gap-3 bg-black text-white">
+          <Terminal className="w-6 h-6" />
+          <span className="font-display text-2xl uppercase tracking-tighter">DevNotes</span>
+        </div>
+        
+        <div className="flex-1 flex items-center px-6 gap-4">
+          <div className="relative flex-1 max-w-xl">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
+            <input
+              type="text"
+              placeholder="SEARCH_NOTES..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
+            />
           </div>
         </div>
-      </header>
 
-      <main className="max-w-6xl mx-auto px-6 pt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-          {/* Sidebar */}
-          <aside className="lg:col-span-1 space-y-8">
-            <section>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 flex items-center gap-2">
-                <Filter className="w-3 h-3" />
-                Filter by Language
-              </h3>
-              <div className="space-y-1">
-                {languages.map(lang => (
-                  <button
-                    key={lang}
-                    onClick={() => setSelectedLanguage(lang)}
-                    className={cn(
-                      "w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all capitalize",
-                      selectedLanguage === lang 
-                        ? "bg-black text-white" 
-                        : "text-gray-500 hover:bg-gray-200 hover:text-gray-900"
-                    )}
-                  >
-                    {lang}
-                  </button>
-                ))}
+        <div className="border-l-2 border-black flex items-center px-4 gap-2">
+          <button
+            onClick={() => setViewMode('grid')}
+            className={cn(
+              "p-2 border-2 border-black transition-all",
+              viewMode === 'grid' ? "bg-accent shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-white hover:bg-gray-100"
+            )}
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setViewMode('list')}
+            className={cn(
+              "p-2 border-2 border-black transition-all",
+              viewMode === 'list' ? "bg-accent shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-white hover:bg-gray-100"
+            )}
+          >
+            <ListIcon className="w-4 h-4" />
+          </button>
+        </div>
+      </nav>
+
+      <div className="flex flex-1">
+        {/* Sidebar - Vertical Rail */}
+        <aside className="w-64 border-r-2 border-black hidden md:flex flex-col bg-white">
+          <div className="p-4 border-b-2 border-black bg-black text-white">
+            <h3 className="font-display text-sm uppercase tracking-widest flex items-center gap-2">
+              <Filter className="w-3 h-3" />
+              Languages
+            </h3>
+          </div>
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+            {languages.map(lang => (
+              <button
+                key={lang}
+                onClick={() => setSelectedLanguage(lang)}
+                className={cn(
+                  "w-full text-left px-4 py-3 border-2 border-transparent font-mono text-xs uppercase tracking-tight transition-all",
+                  selectedLanguage === lang 
+                    ? "bg-accent border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-1 -translate-y-1" 
+                    : "hover:bg-gray-100"
+                )}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
+          
+          <div className="p-4 border-t-2 border-black bg-accent">
+            <div className="grid grid-cols-2 gap-2 text-center">
+              <div className="border-2 border-black bg-white p-2">
+                <p className="text-xl font-black">{notes.length}</p>
+                <p className="text-[8px] font-bold uppercase">Notes</p>
               </div>
-            </section>
-
-            <section className="p-4 bg-black/5 rounded-2xl border border-black/5">
-              <h4 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Stats</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-2xl font-bold">{notes.length}</p>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase">Total Notes</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{languages.length - 1}</p>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase">Languages</p>
-                </div>
+              <div className="border-2 border-black bg-white p-2">
+                <p className="text-xl font-black">{languages.length - 1}</p>
+                <p className="text-[8px] font-bold uppercase">Langs</p>
               </div>
-            </section>
-          </aside>
+            </div>
+          </div>
+        </aside>
 
-          {/* Content Area */}
-          <div className="lg:col-span-3">
+        {/* Main Content */}
+        <main className="flex-1 bg-white overflow-y-auto p-8">
+          <div className="max-w-4xl mx-auto">
             <NoteForm onSubmit={handleAddNote} />
 
             <div className={cn(
-              "grid gap-6",
+              "grid gap-8 mt-12",
               viewMode === 'grid' ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
             )}>
               <AnimatePresence mode="popLayout">
@@ -172,20 +164,18 @@ export default function App() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="col-span-full py-20 text-center"
+                    className="col-span-full py-20 text-center border-4 border-dashed border-black"
                   >
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
-                      <Terminal className="w-8 h-8" />
-                    </div>
-                    <h3 className="text-lg font-medium text-gray-900">No notes found</h3>
-                    <p className="text-gray-500 text-sm">Try adjusting your search or filters.</p>
+                    <Terminal className="w-12 h-12 mx-auto mb-4" />
+                    <h3 className="font-display text-2xl uppercase">System Empty</h3>
+                    <p className="font-mono text-sm mt-2">No matching records found in database.</p>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

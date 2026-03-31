@@ -33,95 +33,96 @@ export function NoteForm({ onSubmit }: NoteFormProps) {
   };
 
   return (
-    <div className="mb-8">
+    <div className="mb-12">
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}
-          className="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-black hover:text-black transition-all flex items-center justify-center gap-2 group"
+          className="w-full py-6 border-4 border-dashed border-black text-black hover:bg-accent transition-all flex items-center justify-center gap-4 group"
         >
-          <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
-          <span className="font-medium">Create New Note</span>
+          <Plus className="w-8 h-8 group-hover:rotate-90 transition-transform" />
+          <span className="font-display text-3xl uppercase tracking-tighter">Initialize_New_Note</span>
         </button>
       ) : (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white p-8 border-4 border-black brutal-shadow"
         >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold italic font-serif">New Note</h2>
-            <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-black">
-              <X className="w-5 h-5" />
+          <div className="flex justify-between items-center mb-8 border-b-4 border-black pb-4">
+            <h2 className="text-4xl font-display uppercase tracking-tighter">New_Entry</h2>
+            <button onClick={() => setIsOpen(false)} className="p-2 border-2 border-black hover:bg-black hover:text-white transition-colors">
+              <X className="w-6 h-6" />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Title</label>
-              <input
-                autoFocus
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g., React useEffect Cleanup"
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="md:col-span-2">
+                <label className="block font-mono text-xs font-black uppercase mb-2">Title_Header</label>
+                <input
+                  autoFocus
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="ENTRY_TITLE"
+                  className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
+                />
+              </div>
 
-            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Language</label>
+                <label className="block font-mono text-xs font-black uppercase mb-2">Syntax_Lang</label>
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-all"
+                  className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors appearance-none"
                 >
-                  <option value="javascript">JavaScript</option>
-                  <option value="typescript">TypeScript</option>
-                  <option value="python">Python</option>
-                  <option value="rust">Rust</option>
-                  <option value="go">Go</option>
+                  <option value="javascript">JS</option>
+                  <option value="typescript">TS</option>
+                  <option value="python">PY</option>
+                  <option value="rust">RS</option>
+                  <option value="go">GO</option>
                   <option value="css">CSS</option>
                   <option value="html">HTML</option>
-                  <option value="other">Other</option>
+                  <option value="other">ETC</option>
                 </select>
               </div>
+              
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Tags (comma separated)</label>
+                <label className="block font-mono text-xs font-black uppercase mb-2">Metadata_Tags</label>
                 <input
                   type="text"
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
-                  placeholder="react, hooks, side-effects"
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-all"
+                  placeholder="TAG1, TAG2..."
+                  className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Content (Markdown supported)</label>
+              <label className="block font-mono text-xs font-black uppercase mb-2">Content_Body (Markdown)</label>
               <textarea
-                rows={6}
+                rows={8}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your note here..."
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-all font-mono text-sm"
+                placeholder="SYSTEM_INPUT..."
+                className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex justify-end gap-4 pt-4">
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="px-6 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors"
+                className="px-8 py-3 border-2 border-black font-display text-xl uppercase hover:bg-gray-100 transition-colors"
               >
-                Cancel
+                Abort
               </button>
               <button
                 type="submit"
-                className="px-8 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                className="px-12 py-3 bg-black text-white border-2 border-black font-display text-xl uppercase hover:bg-accent hover:text-black transition-all brutal-shadow"
               >
-                Save Note
+                Commit_Note
               </button>
             </div>
           </form>
