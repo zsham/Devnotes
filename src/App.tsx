@@ -63,96 +63,103 @@ export default function App() {
   }, [notes]);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Top Navigation - Brutalist Bar */}
-      <nav className="border-b-2 border-black flex items-stretch h-16 sticky top-0 z-20 bg-white">
-        <div className="border-r-2 border-black px-6 flex items-center gap-3 bg-black text-white">
-          <Terminal className="w-6 h-6" />
-          <span className="font-display text-2xl uppercase tracking-tighter">DevNotes</span>
+    <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
+      {/* Top Header */}
+      <header className="h-16 bg-white border-b border-[#e9ecef] flex items-center justify-between px-8 sticky top-0 z-30">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-[#0066ff] rounded-lg flex items-center justify-center text-white">
+            <Terminal className="w-5 h-5" />
+          </div>
+          <h1 className="text-lg font-semibold tracking-tight text-[#212529]">DevNotes</h1>
         </div>
-        
-        <div className="flex-1 flex items-center px-6 gap-4">
-          <div className="relative flex-1 max-w-xl">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
+
+        <div className="flex-1 max-w-2xl mx-12">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#adb5bd] group-focus-within:text-[#0066ff] transition-colors" />
             <input
               type="text"
-              placeholder="SEARCH_NOTES..."
+              placeholder="Search your technical notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
+              className="w-full pl-10 pr-4 py-2 bg-[#f1f3f5] border-transparent rounded-lg text-sm focus:bg-white focus:ring-2 focus:ring-[#0066ff]/10 focus:border-[#0066ff] transition-all outline-none"
             />
           </div>
         </div>
 
-        <div className="border-l-2 border-black flex items-center px-4 gap-2">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={cn(
-              "p-2 border-2 border-black transition-all",
-              viewMode === 'grid' ? "bg-accent shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-white hover:bg-gray-100"
-            )}
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={cn(
-              "p-2 border-2 border-black transition-all",
-              viewMode === 'list' ? "bg-accent shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-white hover:bg-gray-100"
-            )}
-          >
-            <ListIcon className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2">
+          <div className="flex bg-[#f1f3f5] p-1 rounded-lg">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={cn(
+                "p-1.5 rounded-md transition-all",
+                viewMode === 'grid' ? "bg-white shadow-sm text-[#0066ff]" : "text-[#adb5bd] hover:text-[#495057]"
+              )}
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={cn(
+                "p-1.5 rounded-md transition-all",
+                viewMode === 'list' ? "bg-white shadow-sm text-[#0066ff]" : "text-[#adb5bd] hover:text-[#495057]"
+              )}
+            >
+              <ListIcon className="w-4 h-4" />
+            </button>
+          </div>
         </div>
-      </nav>
+      </header>
 
-      <div className="flex flex-1">
-        {/* Sidebar - Vertical Rail */}
-        <aside className="w-64 border-r-2 border-black hidden md:flex flex-col bg-white">
-          <div className="p-4 border-b-2 border-black bg-black text-white">
-            <h3 className="font-display text-sm uppercase tracking-widest flex items-center gap-2">
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <aside className="w-64 bg-white border-r border-[#e9ecef] hidden lg:flex flex-col p-6 overflow-y-auto">
+          <div className="mb-8">
+            <h3 className="text-[11px] font-bold uppercase tracking-wider text-[#adb5bd] mb-4 flex items-center gap-2">
               <Filter className="w-3 h-3" />
-              Languages
+              Filter by Language
             </h3>
+            <div className="space-y-1">
+              {languages.map(lang => (
+                <button
+                  key={lang}
+                  onClick={() => setSelectedLanguage(lang)}
+                  className={cn(
+                    "w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all capitalize",
+                    selectedLanguage === lang 
+                      ? "bg-[#0066ff]/5 text-[#0066ff]" 
+                      : "text-[#495057] hover:bg-[#f1f3f5]"
+                  )}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="flex-1 overflow-y-auto p-2 space-y-1">
-            {languages.map(lang => (
-              <button
-                key={lang}
-                onClick={() => setSelectedLanguage(lang)}
-                className={cn(
-                  "w-full text-left px-4 py-3 border-2 border-transparent font-mono text-xs uppercase tracking-tight transition-all",
-                  selectedLanguage === lang 
-                    ? "bg-accent border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-1 -translate-y-1" 
-                    : "hover:bg-gray-100"
-                )}
-              >
-                {lang}
-              </button>
-            ))}
-          </div>
-          
-          <div className="p-4 border-t-2 border-black bg-accent">
-            <div className="grid grid-cols-2 gap-2 text-center">
-              <div className="border-2 border-black bg-white p-2">
-                <p className="text-xl font-black">{notes.length}</p>
-                <p className="text-[8px] font-bold uppercase">Notes</p>
-              </div>
-              <div className="border-2 border-black bg-white p-2">
-                <p className="text-xl font-black">{languages.length - 1}</p>
-                <p className="text-[8px] font-bold uppercase">Langs</p>
+
+          <div className="mt-auto pt-6 border-t border-[#e9ecef]">
+            <div className="bg-[#f8f9fa] p-4 rounded-xl border border-[#e9ecef]">
+              <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#adb5bd] mb-3">Library Stats</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xl font-bold text-[#212529]">{notes.length}</p>
+                  <p className="text-[9px] text-[#adb5bd] font-bold uppercase">Notes</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-[#212529]">{languages.length - 1}</p>
+                  <p className="text-[9px] text-[#adb5bd] font-bold uppercase">Langs</p>
+                </div>
               </div>
             </div>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <main className="flex-1 bg-white overflow-y-auto p-8">
-          <div className="max-w-4xl mx-auto">
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto bg-[#f8f9fa] p-8">
+          <div className="max-w-5xl mx-auto">
             <NoteForm onSubmit={handleAddNote} />
 
             <div className={cn(
-              "grid gap-8 mt-12",
+              "grid gap-6 mt-8",
               viewMode === 'grid' ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
             )}>
               <AnimatePresence mode="popLayout">
@@ -164,11 +171,13 @@ export default function App() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="col-span-full py-20 text-center border-4 border-dashed border-black"
+                    className="col-span-full py-24 text-center bg-white rounded-2xl border border-dashed border-[#dee2e6]"
                   >
-                    <Terminal className="w-12 h-12 mx-auto mb-4" />
-                    <h3 className="font-display text-2xl uppercase">System Empty</h3>
-                    <p className="font-mono text-sm mt-2">No matching records found in database.</p>
+                    <div className="w-12 h-12 bg-[#f1f3f5] rounded-full flex items-center justify-center mx-auto mb-4 text-[#adb5bd]">
+                      <Terminal className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-base font-semibold text-[#212529]">No records found</h3>
+                    <p className="text-sm text-[#adb5bd] mt-1">Try adjusting your search or language filters.</p>
                   </motion.div>
                 )}
               </AnimatePresence>

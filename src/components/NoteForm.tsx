@@ -33,96 +33,99 @@ export function NoteForm({ onSubmit }: NoteFormProps) {
   };
 
   return (
-    <div className="mb-12">
+    <div className="mb-8">
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}
-          className="w-full py-6 border-4 border-dashed border-black text-black hover:bg-accent transition-all flex items-center justify-center gap-4 group"
+          className="w-full py-4 bg-white border border-[#e9ecef] rounded-xl text-[#6c757d] hover:border-[#0066ff] hover:text-[#0066ff] transition-all flex items-center justify-center gap-2 group card-shadow"
         >
-          <Plus className="w-8 h-8 group-hover:rotate-90 transition-transform" />
-          <span className="font-display text-3xl uppercase tracking-tighter">Initialize_New_Note</span>
+          <Plus className="w-4 h-4" />
+          <span className="text-sm font-medium">Create new entry</span>
         </button>
       ) : (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white p-8 border-4 border-black brutal-shadow"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-8 rounded-2xl border border-[#e9ecef] card-shadow"
         >
-          <div className="flex justify-between items-center mb-8 border-b-4 border-black pb-4">
-            <h2 className="text-4xl font-display uppercase tracking-tighter">New_Entry</h2>
-            <button onClick={() => setIsOpen(false)} className="p-2 border-2 border-black hover:bg-black hover:text-white transition-colors">
-              <X className="w-6 h-6" />
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-lg font-semibold text-[#212529]">New Technical Note</h2>
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="p-1.5 text-[#adb5bd] hover:text-[#212529] hover:bg-[#f8f9fa] rounded-lg transition-all"
+            >
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2">
-                <label className="block font-mono text-xs font-black uppercase mb-2">Title_Header</label>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#adb5bd] mb-2">Title</label>
                 <input
                   autoFocus
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="ENTRY_TITLE"
-                  className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
+                  placeholder="e.g. Memory Management in Rust"
+                  className="w-full px-4 py-2.5 bg-[#f8f9fa] border border-[#e9ecef] rounded-lg text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#0066ff]/10 focus:border-[#0066ff] transition-all"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-xs font-black uppercase mb-2">Syntax_Lang</label>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#adb5bd] mb-2">Language</label>
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors appearance-none"
+                  className="w-full px-4 py-2.5 bg-[#f8f9fa] border border-[#e9ecef] rounded-lg text-sm focus:outline-none focus:bg-white focus:border-[#0066ff] transition-all appearance-none cursor-pointer"
                 >
-                  <option value="javascript">JS</option>
-                  <option value="typescript">TS</option>
-                  <option value="python">PY</option>
-                  <option value="rust">RS</option>
-                  <option value="go">GO</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="typescript">TypeScript</option>
+                  <option value="python">Python</option>
+                  <option value="rust">Rust</option>
+                  <option value="go">Go</option>
                   <option value="css">CSS</option>
                   <option value="html">HTML</option>
-                  <option value="other">ETC</option>
+                  <option value="other">Other</option>
                 </select>
-              </div>
-              
-              <div>
-                <label className="block font-mono text-xs font-black uppercase mb-2">Metadata_Tags</label>
-                <input
-                  type="text"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  placeholder="TAG1, TAG2..."
-                  className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
-                />
               </div>
             </div>
 
             <div>
-              <label className="block font-mono text-xs font-black uppercase mb-2">Content_Body (Markdown)</label>
-              <textarea
-                rows={8}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="SYSTEM_INPUT..."
-                className="w-full px-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-accent transition-colors"
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#adb5bd] mb-2">Tags (comma separated)</label>
+              <input
+                type="text"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                placeholder="concurrency, systems, safety"
+                className="w-full px-4 py-2.5 bg-[#f8f9fa] border border-[#e9ecef] rounded-lg text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#0066ff]/10 focus:border-[#0066ff] transition-all"
               />
             </div>
 
-            <div className="flex justify-end gap-4 pt-4">
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#adb5bd] mb-2">Content (Markdown)</label>
+              <textarea
+                rows={10}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Document your findings here..."
+                className="w-full px-4 py-3 bg-[#f8f9fa] border border-[#e9ecef] rounded-lg text-sm font-mono focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#0066ff]/10 focus:border-[#0066ff] transition-all resize-none"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4">
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="px-8 py-3 border-2 border-black font-display text-xl uppercase hover:bg-gray-100 transition-colors"
+                className="px-5 py-2 text-sm font-medium text-[#6c757d] hover:text-[#212529] transition-colors"
               >
-                Abort
+                Discard
               </button>
               <button
                 type="submit"
-                className="px-12 py-3 bg-black text-white border-2 border-black font-display text-xl uppercase hover:bg-accent hover:text-black transition-all brutal-shadow"
+                className="px-8 py-2 bg-[#0066ff] text-white rounded-lg text-sm font-semibold hover:bg-[#0052cc] transition-all shadow-sm"
               >
-                Commit_Note
+                Save Entry
               </button>
             </div>
           </form>
